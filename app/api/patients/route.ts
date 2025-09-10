@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 		const page = Number.parseInt(searchParams.get('page') || '1');
 		const limit = Number.parseInt(searchParams.get('limit') || '12');
 		const search = searchParams.get('search') || '';
-		const medicalIssue = searchParams.get('medical_issue') || '';
+		const medicalIssues = searchParams.getAll('medical_issues');
 		const sortBy = searchParams.get('sort_by') || 'patient_name';
 		const sortOrder = searchParams.get('sort_order') || 'asc';
 
@@ -27,10 +27,9 @@ export async function GET(request: NextRequest) {
 			);
 		}
 
-		// Apply medical issue filter
-		if (medicalIssue) {
-			filteredPatients = filteredPatients.filter(
-				(patient) => patient.medical_issue.toLowerCase() === medicalIssue.toLowerCase()
+		if (medicalIssues.length > 0) {
+			filteredPatients = filteredPatients.filter((patient) =>
+				medicalIssues.some((issue) => patient.medical_issue.toLowerCase() === issue.toLowerCase())
 			);
 		}
 

@@ -9,9 +9,17 @@ interface UsePatientsParams {
 	sortOrder: SortOrder;
 	currentPage: number;
 	limit: number;
+	medicalIssueFilters?: string[];
 }
 
-export function usePatients({ searchTerm, sortBy, sortOrder, currentPage, limit }: UsePatientsParams) {
+export function usePatients({
+	searchTerm,
+	sortBy,
+	sortOrder,
+	currentPage,
+	limit,
+	medicalIssueFilters = [],
+}: UsePatientsParams) {
 	const [patients, setPatients] = useState<Patient[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -31,6 +39,12 @@ export function usePatients({ searchTerm, sortBy, sortOrder, currentPage, limit 
 				sort_order: sortOrder,
 			});
 
+			if (medicalIssueFilters.length > 0) {
+				medicalIssueFilters.forEach((filter) => {
+					params.append('medical_issues', filter);
+				});
+			}
+
 			const response = await fetch(`/api/patients?${params}`);
 			if (!response.ok) {
 				throw new Error('Failed to fetch patients');
@@ -45,7 +59,7 @@ export function usePatients({ searchTerm, sortBy, sortOrder, currentPage, limit 
 		} finally {
 			setLoading(false);
 		}
-	}, [currentPage, limit, searchTerm, sortBy, sortOrder]);
+	}, [currentPage, limit, searchTerm, sortBy, sortOrder, medicalIssueFilters]);
 
 	useEffect(() => {
 		fetchPatients();

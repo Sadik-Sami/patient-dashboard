@@ -1,12 +1,14 @@
 'use client';
+
 import { usePatients } from '@/hooks/use-patients';
 import { usePatientFilters } from '@/hooks/use-patient-filters';
-import { ErrorState } from '@/app/_components/error-state';
-import { LoadingState } from '@/app/_components/loading-state';
-import { SearchAndFilters } from '@/app/_components/search-and-filters';
-import { ViewTabs } from '@/app/_components/view-tabs';
 import { Header } from '@/app/_components/header';
-import { PatientList } from './_components/patient-list';
+import { ViewTabs } from '@/app/_components/view-tabs';
+import { SearchAndFilters } from '@/app/_components/search-and-filters';
+import { PatientList } from '@/app/_components/patient-list';
+import { LoadingState } from '@/app/_components/loading-state';
+import { ErrorState } from '@/app/_components/error-state';
+import { Pagination } from '@/app/_components/pagination';
 
 export default function PatientDirectory() {
 	const {
@@ -16,9 +18,12 @@ export default function PatientDirectory() {
 		sortBy,
 		sortOrder,
 		activeFilters,
+		medicalIssueFilters,
+		availableMedicalIssues,
 		handleSearchChange,
 		handleSortChange,
 		handleFilterRemove,
+		handleMedicalIssueFilterAdd,
 		handlePageChange,
 		handleViewModeChange,
 	} = usePatientFilters();
@@ -31,6 +36,7 @@ export default function PatientDirectory() {
 		sortOrder,
 		currentPage,
 		limit,
+		medicalIssueFilters,
 	});
 
 	if (error) {
@@ -52,6 +58,9 @@ export default function PatientDirectory() {
 					sortBy={sortBy}
 					sortOrder={sortOrder}
 					onSortChange={handleSortChange}
+					medicalIssueFilters={medicalIssueFilters}
+					availableMedicalIssues={availableMedicalIssues}
+					onMedicalIssueFilterAdd={handleMedicalIssueFilterAdd}
 				/>
 			</div>
 
@@ -61,6 +70,7 @@ export default function PatientDirectory() {
 				) : (
 					<>
 						<PatientList patients={patients} viewMode={viewMode} />
+						<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
 					</>
 				)}
 			</div>

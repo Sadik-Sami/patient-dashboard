@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Filter, X } from 'lucide-react';
+import { Search, Filter, X, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -17,6 +17,9 @@ interface SearchAndFiltersProps {
 	sortBy: SortField;
 	sortOrder: SortOrder;
 	onSortChange: (field: SortField, order: SortOrder) => void;
+	medicalIssueFilters: string[];
+	availableMedicalIssues: readonly string[];
+	onMedicalIssueFilterAdd: (issue: string) => void;
 }
 
 export function SearchAndFilters({
@@ -27,7 +30,12 @@ export function SearchAndFilters({
 	sortBy,
 	sortOrder,
 	onSortChange,
+	medicalIssueFilters,
+	availableMedicalIssues,
+	onMedicalIssueFilterAdd,
 }: SearchAndFiltersProps) {
+	const availableIssues = availableMedicalIssues.filter((issue) => !medicalIssueFilters.includes(issue));
+
 	return (
 		<div className='p-6 space-y-4'>
 			{/* Search Bar and Active Filters Count */}
@@ -49,6 +57,37 @@ export function SearchAndFilters({
 					<div className='flex items-center gap-2 text-sm text-gray-600'>
 						<Filter className='w-4 h-4' />
 						<span>Active Filters: {activeFilters.length}</span>
+					</div>
+
+					<div className='flex items-center gap-2'>
+						<span className='text-sm font-medium text-gray-700'>Filter by Issue:</span>
+						<Select
+							value=''
+							onValueChange={(value) => {
+								if (value) {
+									onMedicalIssueFilterAdd(value);
+								}
+							}}>
+							<SelectTrigger className='w-40'>
+								<SelectValue placeholder='Add filter' />
+							</SelectTrigger>
+							<SelectContent>
+								{availableIssues.length > 0 ? (
+									availableIssues.map((issue) => (
+										<SelectItem key={issue} value={issue}>
+											<div className='flex items-center gap-2'>
+												<Plus className='w-3 h-3' />
+												<span className='capitalize'>{issue}</span>
+											</div>
+										</SelectItem>
+									))
+								) : (
+									<SelectItem value='' disabled>
+										All issues filtered
+									</SelectItem>
+								)}
+							</SelectContent>
+						</Select>
 					</div>
 
 					<div className='flex items-center gap-2'>
@@ -78,7 +117,21 @@ export function SearchAndFilters({
 			{activeFilters.length > 0 && (
 				<div className='flex flex-wrap gap-2'>
 					{activeFilters.map((filter) => {
-						const colors = getMedicalIssueColors(filter);
+						let colors;
+						if (filter.startsWith('Issue:')) {
+							const issue = filter.replace('Issue: ', '');
+							colors = getMedicalIssueColors(issue);
+						} else if (filter.startsWith('Sort:')) {
+							// Sort filters get a neutral blue styling
+							colors = {
+								bg: 'bg-blue-50',
+								text: 'text-blue-700',
+								border: 'border-blue-200',
+							};
+						} else {
+							colors = getMedicalIssueColors(filter);
+						}
+
 						return (
 							<Badge
 								key={filter}
