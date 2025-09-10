@@ -35,12 +35,12 @@ export async function GET(request: NextRequest) {
 
 		// Apply sorting
 		filteredPatients.sort((a, b) => {
-			let aValue: any = a[sortBy as keyof Patient];
-			let bValue: any = b[sortBy as keyof Patient];
+			let aValue: string | number = a[sortBy as keyof Patient] as string | number;
+			let bValue: string | number = b[sortBy as keyof Patient] as string | number;
 
 			if (sortBy === 'patient_name') {
-				aValue = aValue.toLowerCase();
-				bValue = bValue.toLowerCase();
+				aValue = (aValue as string).toLowerCase();
+				bValue = (bValue as string).toLowerCase();
 			}
 
 			if (sortOrder === 'asc') {
