@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useDebounce } from '@/hooks/use-debounce';
 import type { Patient, PatientsResponse, SortField, SortOrder } from '@/types/patient';
 
 interface UsePatientsParams {
@@ -26,6 +27,8 @@ export function usePatients({
 	const [totalPatients, setTotalPatients] = useState(0);
 	const [totalPages, setTotalPages] = useState(0);
 
+	const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
 	const fetchPatients = useCallback(async () => {
 		try {
 			setLoading(true);
@@ -34,7 +37,7 @@ export function usePatients({
 			const params = new URLSearchParams({
 				page: currentPage.toString(),
 				limit: limit.toString(),
-				search: searchTerm,
+				search: debouncedSearchTerm,
 				sort_by: sortBy,
 				sort_order: sortOrder,
 			});
@@ -59,7 +62,7 @@ export function usePatients({
 		} finally {
 			setLoading(false);
 		}
-	}, [currentPage, limit, searchTerm, sortBy, sortOrder, medicalIssueFilters]);
+	}, [currentPage, limit, debouncedSearchTerm, sortBy, sortOrder, medicalIssueFilters]);
 
 	useEffect(() => {
 		fetchPatients();

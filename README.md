@@ -1,95 +1,103 @@
-# Patient Directory Application
+Here’s a polished, ready-to-paste version of your README with slight refinements for clarity, formatting, and flow while keeping it professional and GitHub-friendly:
 
-A modern, responsive patient directory application built with Next.js 15, TypeScript, and Tailwind CSS. Features real-time search, filtering, sorting, and both card and table view modes.
+```markdown
+# 🏥 Patient Directory Application
+
+A modern, responsive patient directory application built with **Next.js 15**, **TypeScript**, and **Tailwind CSS**.
+Includes real-time search, filtering, sorting, and both card and table view modes.
+
+---
 
 ## 🚀 Features
 
-- **Dual View Modes**: Switch between card and table layouts
-- **Real-time Search**: Debounced search with 300ms delay for optimal performance
-- **Advanced Filtering**: Filter by medical issues with visual badges
-- **Multi-field Sorting**: Sort by name, age, or medical issue (ascending/descending)
-- **Responsive Design**: Fully responsive across all device sizes
-- **Performance Optimized**: Memoized components and debounced API calls
-- **Accessible**: ARIA labels and keyboard navigation support
+- **Dual View Modes** – Switch between card and table layouts
+- **Real-time Search** – Debounced search with 300ms delay for optimal performance
+- **Advanced Filtering** – Filter by medical issues with visual badges
+- **Multi-field Sorting** – Sort by name, age, or medical issue (ascending/descending)
+- **Responsive Design** – Fully responsive across all device sizes
+- **Performance Optimized** – Memoized components and debounced API calls
+- **Accessible** – ARIA labels and keyboard navigation support
+
+---
 
 ## 🏗️ Architecture
 
-### Frontend Architecture
+### Frontend Structure
+```
 
-\`\`\`bash
 app/
-├── api/patients/          # API routes for patient data
-├── page.tsx              # Main patient directory page
-└── layout.tsx            # Root layout with fonts
-
-app/_componenets/
-├── header.tsx            # Application header with patient count
-├── view-tabs.tsx         # View mode switcher (card/table)
-├── search-and-filters.tsx # Search bar and filter controls
-├── patient-list.tsx      # Patient list container
-├── patient-card.tsx      # Individual patient card component
-├── patient-table.tsx     # Table view component
-├── pagination.tsx        # Pagination controls
-├── loading-state.tsx     # Loading skeleton
-├── error-state.tsx       # Error handling component
-└── medical-issue-badge.tsx # Medical issue badge with color coding
-
+├── api/patients/ # API routes for patient data
+├── _components
+   ├── header.tsx # App header with patient count
+   ├── view-tabs.tsx # View mode switcher (card/table)
+   ├── search-and-filters.tsx # Search bar and filter controls
+   ├── patient-list.tsx # Patient list container
+   ├── patient-card.tsx # Individual patient card
+   ├── patient-table.tsx # Table view
+   ├── pagination.tsx # Pagination controls
+   ├── loading-state.tsx # Loading skeleton
+   ├── error-state.tsx # Error handling component
+   └── medical-issue-badge.tsx # Medical issue badge with color coding
+├── page.tsx # Main patient directory page
+└── layout.tsx # Root layout with fonts
 hooks/
-├── use-patients.ts       # Patient data fetching with SWR-like pattern
-└── use-patient-filters.ts # Filter state management
+├── use-patients.ts # Patient data fetching
+├── use-patient-filters.ts # Filter/search state management
+└── use-debounce.ts # Debounce utility
 
 types/
-└── patient.ts            # TypeScript interfaces
-\`\`\`
+└── patient.ts # TypeScript interfaces
 
-### Key Architectural Decisions
+````
 
-#### 1. **Separation of Concerns**
+### Key Decisions
+1. **Separation of Concerns**
+   - Data layer (`usePatients`) → API communication
+   - State layer (`usePatientFilters`) → filter/search state
+   - UI layer → purely presentation components
+   - API layer → request handling & formatted responses
 
-- **Data Layer**: `usePatients` hook handles all API communication
-- **State Layer**: `usePatientFilters` manages filter/search state
-- **UI Layer**: Components focus purely on presentation
-- **API Layer**: Route handlers process requests and return formatted data
+2. **Performance Optimizations**
+   - Debounced search (300ms)
+   - Memoization with `useMemo` & `useCallback`
+   - Server-side filtering & pagination
 
-#### 2. **Performance Optimizations**
-
-- **Efficient Filtering**: Server-side filtering reduces client-side processing
-- **Pagination**: Limits data transfer and improves load times
-
-#### 3. **State Management Strategy**
-
-\`\`\`typescript
-// Centralized filter state
+3. **State Management Strategy**
+```ts
 const {
-searchTerm, // Immediate UI state
-debouncedSearch, // API call trigger
-activeFilters, // Memoized filter array
-// ... handlers
+  searchTerm,        // Immediate UI state
+  debouncedSearch,   // API call trigger
+  activeFilters,     // Memoized filters
+  // handlers...
 } = usePatientFilters()
-\`\`\`
+````
 
-#### 4. **Component Design Patterns**
+4. **Component Design**
 
-- **Single Responsibility**: Each component has one clear purpose
-- **Composition**: Complex UI built from simple, reusable components
-- **Props Interface**: Strict TypeScript interfaces for component contracts
-- **Conditional Rendering**: Loading/error states handled declaratively
+   - Single responsibility per component
+   - Compositional UI
+   - Strict TypeScript props interfaces
+   - Declarative error/loading states
 
-#### 5. **Data Flow**
+5. **Data Flow**
 
-\`\`\`
-User Input → usePatientFilters → usePatients → API → UI Update
-\`\`\`
+```
+User Input → usePatientFilters → useDebounce → usePatients → API → UI Update
+```
 
-## 🛠️ Technology Stack
+---
+
+## 🛠️ Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
-- **Data Fetching**: Custom hooks with fetch API
-- **State Management**: React hooks (useState, useEffect)
+- **Data Fetching**: Custom hooks + fetch API
+- **State Management**: React hooks (useState, useEffect, useMemo, useCallback)
+
+---
 
 ## 📦 Installation
 
@@ -98,127 +106,138 @@ User Input → usePatientFilters → usePatients → API → UI Update
 - Node.js 18+
 - pnpm (recommended) or npm
 
-### Setup Instructions
+### Setup
 
-1. **Clone the repository**
-   \`\`\`bash
-   git clone <repository-url>
-   cd patient-directory-app
-   \`\`\`
+```bash
+# Clone repository
+git clone <repository-url>
+cd patient-directory-app
 
-2. **Install dependencies**
-   \`\`\`bash
-   pnpm install
-
+# Install dependencies
+pnpm install
 # or
-
 npm install
-\`\`\`
 
-3. **Start development server**
-   \`\`\`bash
-   pnpm dev
-
+# Run development server
+pnpm dev
 # or
-
 npm run dev
-\`\`\`
+```
 
-4. **Open in browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+Visit → [http://localhost:3000](http://localhost:3000)
 
-### Build for Production
+### Production Build
 
-\`\`\`bash
-
-# Build the application
-
+```bash
 pnpm build
-
-# Start production server
-
 pnpm start
-\`\`\`
+```
+
+---
 
 ## 🎨 Design System
 
 ### Color Palette
 
-- **Primary**: Blue (#3B82F6, #1E40AF, #1E3A8A)
-- **Medical Issue Colors**: 10 distinct colors for different conditions
-- **Neutrals**: Gray scale for backgrounds and text
-- **Status Colors**: Green (success), Red (error), Yellow (warning)
+- **Primary**: Blue
+- **Medical Issues**: 10 distinct colors for conditions
+- **Neutrals**: Grayscale for backgrounds & text
+- **Status**: Green (success), Red (error), Yellow (warning)
 
-### Responsive Breakpoints
+### Typography
 
-- **Mobile**: < 640px
-- **Tablet**: 640px - 1024px
-- **Desktop**: > 1024px
+- **Font**: Inter (headings & body)
+- **Responsive**: Scales appropriately across devices
+
+### Breakpoints
+
+- Mobile: `< 640px`
+- Tablet: `640px – 1024px`
+- Desktop: `> 1024px`
+
+---
 
 ## 🔧 Configuration
 
-### Environment Variables
+### Environment
 
 No environment variables required for basic functionality.
 
 ### Customization
 
-#### Adding New Medical Issues
+**Add New Medical Issues** → `hooks/use-patient-filters.ts`
 
-Update the `MEDICAL_ISSUES` array in `hooks/use-patient-filters.ts`:
-
-\`\`\`typescript
+```ts
 const MEDICAL_ISSUES = [
-"fever",
-"headache",
-// Add new issues here
-] as const
-\`\`\`
+	'fever',
+	'headache',
+	// add new here
+] as const;
+```
 
-#### Modifying Colors
+**Modify Colors** → `components/patient-directory/medical-issue-badge.tsx`
 
-Update the color mapping in `components/patient-directory/medical-issue-badge.tsx`:
+```ts
+const MEDICAL_ISSUE_COLORS = {
+	'new-issue': {
+		bg: 'bg-purple-50',
+		text: 'text-purple-700',
+		border: 'border-purple-200',
+	},
+};
+```
 
-\`\`\`typescript
-const MEDICAL_ISSUE_COLORS: Record<string, MedicalIssueColors> = {
-"new-issue": {
-bg: "bg-purple-50",
-text: "text-purple-700",
-border: "border-purple-200",
-},
-}
-\`\`\`
+---
 
-## 📊 Performance Considerations
+## 📊 Performance
 
-### Debouncing Strategy
+- **Debounce**: 300ms on search input
+- **Memoization**: Stable references for filters & handlers
+- **API Efficiency**: Server-side filtering + pagination
 
-- **Search Input**: 300ms delay balances responsiveness with API efficiency
-- **Filter Changes**: Immediate application for better UX
-- **Page Changes**: Immediate navigation
-
-### Memoization Usage
-
-- **activeFilters**: Prevents array recreation on every render
-- **availableIssues**: Caches filtered medical issues list
-- **Handler Functions**: Stable references prevent child re-renders
-
-### API Optimization
-
-- **Server-side Filtering**: Reduces client-side processing
-- **Pagination**: Limits data transfer
-- **Efficient Sorting**: Database-level sorting when possible
+---
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 
-1. Connect repository to Vercel
-2. Configure build settings:
-   - **Build Command**: `pnpm build`
-   - **Output Directory**: `.next`
-3. Deploy automatically on push
+1. Connect repo to Vercel
+2. Configure build:
+
+   - Build Command → `pnpm build`
+   - Output Directory → `.next`
+
+3. Auto-deploy on push
 
 ### Other Platforms
 
-The application is a standard Next.js app and can be deployed to any platform supporting Node.js.
+Works on any Node.js hosting (e.g., Render, Netlify, Railway).
+
+---
+
+## 🔍 Troubleshooting
+
+**TypeScript Build Errors**
+
+- Ensure proper type definitions
+- Fix `any` usages (ESLint flags them)
+
+**Performance Issues**
+
+- Verify debouncing in Network tab
+- Confirm memoization on expensive ops
+
+**Responsive Issues**
+
+- Test across multiple screen sizes
+- Validate Tailwind responsive classes
+
+**Debug Mode**
+
+```ts
+console.log('[DEBUG] Component rendered with:', props);
+```
+
+(Remove before production)
+
+---

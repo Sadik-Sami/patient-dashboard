@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { getMedicalIssueColors } from '@/components/ui/medical-issue-badge';
 import { cn } from '@/lib/utils';
+import { useMemo } from 'react';
 import type { SortField, SortOrder } from '@/types/patient';
 
 interface SearchAndFiltersProps {
@@ -33,7 +34,10 @@ export function SearchAndFilters({
 	availableMedicalIssues,
 	onMedicalIssueFilterAdd,
 }: SearchAndFiltersProps) {
-	const availableIssues = availableMedicalIssues.filter((issue) => !medicalIssueFilters.includes(issue));
+	const availableIssues = useMemo(
+		() => availableMedicalIssues.filter((issue) => !medicalIssueFilters.includes(issue)),
+		[availableMedicalIssues, medicalIssueFilters]
+	);
 
 	return (
 		<div className='p-4 sm:p-6 space-y-4'>
@@ -45,12 +49,14 @@ export function SearchAndFilters({
 						placeholder='Search'
 						value={searchTerm}
 						onChange={(e) => onSearchChange(e.target.value)}
-						className='pl-10 pr-12 h-16 lg:h-full placeholder:text-base placeholder:text-blue-500 text-base'
+						className='pl-10 pr-12 h-full placeholder:text-base placeholder:text-blue-500 text-base'
 					/>
 					<div className='absolute right-3 top-1/2 transform -translate-y-1/2'>
 						<ListFilter className='w-6 h-6 text-blue-500' />
 					</div>
 				</div>
+
+				{/* Made sort controls responsive - full width on mobile, auto width on large screens */}
 				<div className='flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2 lg:h-full'>
 					<span className='text-lg sm:text-xl font-medium text-blue-700 whitespace-nowrap'>Sort By:</span>
 					<div className='flex items-center gap-2 h-16 lg:h-full'>
@@ -111,6 +117,7 @@ export function SearchAndFilters({
 							const issue = filter.replace('Issue: ', '');
 							colors = getMedicalIssueColors(issue);
 						} else if (filter.startsWith('Sort:')) {
+							// Sort filters get a neutral blue styling
 							colors = {
 								bg: 'bg-blue-50',
 								text: 'text-blue-700',
