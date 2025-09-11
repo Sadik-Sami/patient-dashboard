@@ -16,7 +16,7 @@ A modern, responsive patient directory application built with Next.js 15, TypeSc
 
 ### Frontend Architecture
 
-\`\`\`
+\`\`\`bash
 app/
 ├── api/patients/          # API routes for patient data
 ├── page.tsx              # Main patient directory page
