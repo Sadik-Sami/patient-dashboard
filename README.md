@@ -18,29 +18,28 @@ A modern, responsive patient directory application built with Next.js 15, TypeSc
 
 \`\`\`
 app/
-├── api/patients/ # API routes for patient data
-├── page.tsx # Main patient directory page
-└── layout.tsx # Root layout with fonts
+├── api/patients/          # API routes for patient data
+├── page.tsx              # Main patient directory page
+└── layout.tsx            # Root layout with fonts
 
-app/\_components/
-├── header.tsx # Application header with patient count
-├── view-tabs.tsx # View mode switcher (card/table)
+app/_componenets/
+├── header.tsx            # Application header with patient count
+├── view-tabs.tsx         # View mode switcher (card/table)
 ├── search-and-filters.tsx # Search bar and filter controls
-├── patient-list.tsx # Patient list container
-├── patient-card.tsx # Individual patient card component
-├── patient-table.tsx # Table view component
-├── pagination.tsx # Pagination controls
-├── loading-state.tsx # Loading skeleton
-├── error-state.tsx # Error handling component
+├── patient-list.tsx      # Patient list container
+├── patient-card.tsx      # Individual patient card component
+├── patient-table.tsx     # Table view component
+├── pagination.tsx        # Pagination controls
+├── loading-state.tsx     # Loading skeleton
+├── error-state.tsx       # Error handling component
 └── medical-issue-badge.tsx # Medical issue badge with color coding
 
 hooks/
-├── use-patients.ts # Patient data fetching with SWR-like pattern
-├── use-patient-filters.ts # Filter state management
-└── use-debounce.ts # Debounce utility hook
+├── use-patients.ts       # Patient data fetching with SWR-like pattern
+└── use-patient-filters.ts # Filter state management
 
 types/
-└── patient.ts # TypeScript interfaces
+└── patient.ts            # TypeScript interfaces
 \`\`\`
 
 ### Key Architectural Decisions
@@ -54,8 +53,6 @@ types/
 
 #### 2. **Performance Optimizations**
 
-- **Debounced Search**: 300ms delay prevents excessive API calls during typing
-- **Memoization**: `useMemo` and `useCallback` prevent unnecessary re-renders
 - **Efficient Filtering**: Server-side filtering reduces client-side processing
 - **Pagination**: Limits data transfer and improves load times
 
@@ -81,7 +78,7 @@ activeFilters, // Memoized filter array
 #### 5. **Data Flow**
 
 \`\`\`
-User Input → usePatientFilters → useDebounce → usePatients → API → UI Update
+User Input → usePatientFilters → usePatients → API → UI Update
 \`\`\`
 
 ## 🛠️ Technology Stack
@@ -92,7 +89,7 @@ User Input → usePatientFilters → useDebounce → usePatients → API → UI 
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
 - **Data Fetching**: Custom hooks with fetch API
-- **State Management**: React hooks (useState, useEffect, useMemo, useCallback)
+- **State Management**: React hooks (useState, useEffect)
 
 ## 📦 Installation
 
@@ -151,12 +148,6 @@ pnpm start
 - **Medical Issue Colors**: 10 distinct colors for different conditions
 - **Neutrals**: Gray scale for backgrounds and text
 - **Status Colors**: Green (success), Red (error), Yellow (warning)
-
-### Typography
-
-- **Headings**: Inter font family, various weights
-- **Body**: Inter font family, regular weight
-- **Responsive**: Scales appropriately across device sizes
 
 ### Responsive Breakpoints
 
