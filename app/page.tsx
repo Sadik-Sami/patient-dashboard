@@ -64,7 +64,7 @@ export default function PatientDirectory() {
 				/>
 			</div>
 
-			<div className='px-6 pb-6'>
+			<div className='px-4 pb-6'>
 				{loading ? (
 					<LoadingState />
 				) : (
