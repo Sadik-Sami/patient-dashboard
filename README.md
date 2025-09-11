@@ -1,5 +1,3 @@
-Here’s a polished, ready-to-paste version of your README with slight refinements for clarity, formatting, and flow while keeping it professional and GitHub-friendly:
-
 ```markdown
 # 🏥 Patient Directory Application
 
@@ -19,11 +17,11 @@ Includes real-time search, filtering, sorting, and both card and table view mode
 - **Accessible** – ARIA labels and keyboard navigation support
 
 ---
-
+```
+```
 ## 🏗️ Architecture
 
 ### Frontend Structure
-```
 
 app/
 ├── api/patients/ # API routes for patient data
@@ -48,7 +46,7 @@ hooks/
 types/
 └── patient.ts # TypeScript interfaces
 
-````
+```
 
 ### Key Decisions
 1. **Separation of Concerns**
@@ -212,32 +210,5 @@ const MEDICAL_ISSUE_COLORS = {
 ### Other Platforms
 
 Works on any Node.js hosting (e.g., Render, Netlify, Railway).
-
----
-
-## 🔍 Troubleshooting
-
-**TypeScript Build Errors**
-
-- Ensure proper type definitions
-- Fix `any` usages (ESLint flags them)
-
-**Performance Issues**
-
-- Verify debouncing in Network tab
-- Confirm memoization on expensive ops
-
-**Responsive Issues**
-
-- Test across multiple screen sizes
-- Validate Tailwind responsive classes
-
-**Debug Mode**
-
-```ts
-console.log('[DEBUG] Component rendered with:', props);
-```
-
-(Remove before production)
 
 ---
