@@ -1,7 +1,6 @@
 'use client';
 
-import { Search, Filter, X, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Search, X, Plus, ListFilter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
@@ -37,30 +36,24 @@ export function SearchAndFilters({
 	const availableIssues = availableMedicalIssues.filter((issue) => !medicalIssueFilters.includes(issue));
 
 	return (
-		<div className='p-6 space-y-4'>
-			{/* Search Bar and Active Filters Count */}
-			<div className='flex items-center justify-between'>
-				<div className='flex-1 max-w-2xl relative'>
-					<Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5' />
+		<div className='p-4 sm:p-6 space-y-4'>
+			{/* Search Bar and Sort Controls */}
+			<div className='flex flex-col lg:flex-row lg:items-center lg:justify-between h-auto lg:h-16 gap-4 lg:gap-12'>
+				<div className='flex-1 relative h-16'>
+					<Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500 w-6 h-6' />
 					<Input
 						placeholder='Search'
 						value={searchTerm}
 						onChange={(e) => onSearchChange(e.target.value)}
-						className='pl-10 pr-12'
+						className='pl-10 pr-12 h-16 lg:h-full placeholder:text-base placeholder:text-blue-500 text-base'
 					/>
-					<Button variant='ghost' size='sm' className='absolute right-2 top-1/2 transform -translate-y-1/2'>
-						<Filter className='w-4 h-4' />
-					</Button>
-				</div>
-
-				<div className='flex items-center gap-4'>
-					<div className='flex items-center gap-2 text-sm text-gray-600'>
-						<Filter className='w-4 h-4' />
-						<span>Active Filters: {activeFilters.length}</span>
+					<div className='absolute right-3 top-1/2 transform -translate-y-1/2'>
+						<ListFilter className='w-6 h-6 text-blue-500' />
 					</div>
-
-					<div className='flex items-center gap-2'>
-						<span className='text-sm font-medium text-gray-700'>Filter by Issue:</span>
+				</div>
+				<div className='flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2 lg:h-full'>
+					<span className='text-lg sm:text-xl font-medium text-blue-700 whitespace-nowrap'>Sort By:</span>
+					<div className='flex items-center gap-2 h-16 lg:h-full'>
 						<Select
 							value=''
 							onValueChange={(value) => {
@@ -68,7 +61,7 @@ export function SearchAndFilters({
 									onMedicalIssueFilterAdd(value);
 								}
 							}}>
-							<SelectTrigger className='w-40'>
+							<SelectTrigger className='w-full sm:w-fit !h-full'>
 								<SelectValue placeholder='Add filter' />
 							</SelectTrigger>
 							<SelectContent>
@@ -88,17 +81,13 @@ export function SearchAndFilters({
 								)}
 							</SelectContent>
 						</Select>
-					</div>
-
-					<div className='flex items-center gap-2'>
-						<span className='text-sm font-medium text-gray-700'>Sort by:</span>
 						<Select
 							value={`${sortBy}-${sortOrder}`}
 							onValueChange={(value) => {
 								const [field, order] = value.split('-') as [SortField, SortOrder];
 								onSortChange(field, order);
 							}}>
-							<SelectTrigger className='w-40'>
+							<SelectTrigger className='w-full sm:w-fit !h-full'>
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
@@ -122,7 +111,6 @@ export function SearchAndFilters({
 							const issue = filter.replace('Issue: ', '');
 							colors = getMedicalIssueColors(issue);
 						} else if (filter.startsWith('Sort:')) {
-							// Sort filters get a neutral blue styling
 							colors = {
 								bg: 'bg-blue-50',
 								text: 'text-blue-700',
@@ -137,7 +125,7 @@ export function SearchAndFilters({
 								key={filter}
 								variant='outline'
 								className={cn(
-									'flex items-center gap-2 px-3 py-1 border transition-colors hover:bg-opacity-80',
+									'flex items-center gap-2 px-3 py-1 border-2 transition-colors',
 									colors.bg,
 									colors.text,
 									colors.border
@@ -145,7 +133,7 @@ export function SearchAndFilters({
 								<span className='font-medium'>{filter}</span>
 								<button
 									onClick={() => onFilterRemove(filter)}
-									className='hover:bg-black hover:bg-opacity-10 rounded-full p-0.5 transition-colors'
+									className='hover:bg-white rounded-full p-0.5 transition-colors'
 									aria-label={`Remove ${filter} filter`}>
 									<X className='w-3 h-3' />
 								</button>

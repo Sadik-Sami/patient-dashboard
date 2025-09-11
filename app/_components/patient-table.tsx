@@ -33,7 +33,7 @@ export function PatientTable({ patients }: PatientTableProps) {
 
 						return (
 							<TableRow key={patient.patient_id} className='hover:bg-gray-50'>
-								<TableCell className='font-medium'>ID-{patient.patient_id.toString().padStart(4, '0')}</TableCell>
+								<TableCell className=''>ID-{patient.patient_id.toString()}</TableCell>
 								<TableCell>
 									<div className='flex items-center gap-3'>
 										<Avatar className='w-8 h-8'>

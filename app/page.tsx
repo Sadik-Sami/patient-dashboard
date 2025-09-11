@@ -48,7 +48,7 @@ export default function PatientDirectory() {
 			<Header totalPatients={totalPatients} />
 
 			<div className='bg-white'>
-				<ViewTabs activeView={viewMode} onViewChange={handleViewModeChange} />
+				<ViewTabs activeFilters={activeFilters} activeView={viewMode} onViewChange={handleViewModeChange} />
 
 				<SearchAndFilters
 					searchTerm={searchTerm}

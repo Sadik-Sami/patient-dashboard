@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 				(patient) =>
 					patient.patient_name.toLowerCase().includes(searchLower) ||
 					patient.contact[0]?.email?.toLowerCase().includes(searchLower) ||
-					patient.contact[0]?.address.toLowerCase().includes(searchLower)
+					patient.contact[0]?.address?.toLowerCase().includes(searchLower)
 			);
 		}
 

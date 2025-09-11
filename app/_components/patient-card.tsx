@@ -18,7 +18,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
 	return (
 		<Card className='h-full'>
-			<CardContent className='p-6'>
+			<CardContent className='py-2 px-4'>
 				<div className='flex items-start gap-4 mb-4'>
 					<Avatar className='w-12 h-12'>
 						<AvatarImage src={patient.photo_url || undefined} alt={patient.patient_name} />
@@ -38,11 +38,11 @@ export function PatientCard({ patient }: PatientCardProps) {
 				<div className='space-y-2 text-sm text-gray-600'>
 					<div className='flex items-center gap-2'>
 						<MapPin className='w-4 h-4 flex-shrink-0' />
-						<span className='truncate'>{contact.address}</span>
+						<span className={`${!contact.address ? 'text-red-500' : ''} truncate`}>{contact.address || 'N/A'}</span>
 					</div>
 					<div className='flex items-center gap-2'>
 						<Phone className='w-4 h-4 flex-shrink-0' />
-						<span className={contact.number === 'N/A' ? 'text-red-500' : ''}>{contact.number}</span>
+						<span className={!contact.number ? 'text-red-500' : ''}>{contact.number || 'N/A'}</span>
 					</div>
 					<div className='flex items-center gap-2'>
 						<Mail className='w-4 h-4 flex-shrink-0' />

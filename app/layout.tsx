@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Manrope } from 'next/font/google';
 import './globals.css';
 import { Suspense } from 'react';
 
@@ -10,6 +10,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
 	variable: '--font-geist-mono',
+	subsets: ['latin'],
+});
+
+const manropeSans = Manrope({
+	variable: '--font-Manrope',
 	subsets: ['latin'],
 });
 
@@ -26,7 +31,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`font-sans ${geistSans.variable} ${geistMono.variable} antialiased`}>
+			<body className={`font-sans ${manropeSans.variable} antialiased`}>
 				<Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
 			</body>
 		</html>
